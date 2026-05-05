@@ -38,24 +38,24 @@ def boot():
     os.system("clear")
 
     print("\033[1;92m╔══════════════════════════════════════╗\033[0m")
-    time.sleep(0.4)
+    time.sleep(0.3)
 
     print("\033[1;92m║               S H A N I              ║\033[0m")
-    time.sleep(0.6)
+    time.sleep(0.5)
 
     print("\033[1;92m╠══════════════════════════════════════╣\033[0m")
-    time.sleep(0.4)
+    time.sleep(0.3)
 
     print("\033[1;96m║  Assalam O Alaikum                   ║\033[0m")
-    time.sleep(0.7)
+    time.sleep(0.6)
 
     print("\033[1;90m║  Initializing Security Protocols...  ║\033[0m")
-    time.sleep(0.6)
+    time.sleep(0.5)
 
     print("\033[1;92m║  Loading Modules...                  ║\033[0m")
     time.sleep(0.7)
 
-    print("\033[1;92m║  System Ready ✔                      ║\033[0m")
+    print("\033[1;92m║  System Ready ✔                     ║\033[0m")
     time.sleep(0.5)
 
     print("\033[1;92m╚══════════════════════════════════════╝\033[0m\n")
@@ -64,25 +64,17 @@ def boot():
 
 boot()
 
-# ================= DEVICE KEY =================
+# ================= DEVICE KEY (FIXED) =================
 def get_device_key():
 
+    # agar file already hai → wahi key use hogi
     if os.path.exists(DEVICE_FILE):
         with open(DEVICE_FILE, "r") as f:
-            local_id = f.read().strip()
-    else:
-        local_id = str(uuid.uuid4())
-        with open(DEVICE_FILE, "w") as f:
-            f.write(local_id)
+            return f.read().strip()
 
-    try:
-        android_id = os.popen("settings get secure android_id").read().strip()
-        if not android_id or android_id == "null":
-            android_id = platform.node()
-    except:
-        android_id = platform.node()
+    # new generate (sirf ek dafa)
+    base = str(uuid.uuid4())
 
-    base = android_id + local_id + platform.node()
     hash_val = hashlib.sha256(base.encode()).hexdigest()
 
     chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -92,14 +84,25 @@ def get_device_key():
         idx = int(hash_val[i*4:(i*4)+4], 16) % len(chars)
         key += chars[idx]
 
+    # save permanently
+    with open(DEVICE_FILE, "w") as f:
+        f.write(key)
+
     return key
 
-# ================= APPROVAL CHECK =================
+# ================= APPROVAL CHECK (IMPROVED) =================
 def check_key(key):
 
     try:
         url = APPROVED_URL + "?t=" + str(time.time())
-        data = requests.get(url, headers={"Cache-Control": "no-cache"}).text
+
+        headers = {
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": "0"
+        }
+
+        data = requests.get(url, headers=headers, timeout=10).text
 
         lines = data.splitlines()
         today = datetime.today()
@@ -165,14 +168,14 @@ def send_whatsapp(key, status, exp=None):
 # ================= PAYMENT BOX =================
 def payment_box():
     print("\n\033[1;92m╔══════════════════════════════════════╗\033[0m")
-    print("\033[1;91m║  ACCOUNT NAME  :  MUHAMMAD SAFDAR    ║\033[0m")
+    print("\033[1;92m║  ACCOUNT NAME  :  MUHAMMAD SAFDAR    ║\033[0m")
     print("\033[1;92m╠══════════════════════════════════════╣\033[0m")
-    print("\033[1;33m║  Easypaisa: 03060725589              ║\033[0m")
-    print("\033[1;33m║  JazzCash : 03060725589              ║\033[0m")
+    print("\033[1;92m║  Easypaisa: 03060725589              ║\033[0m")
+    print("\033[1;92m║  JazzCash : 03060725589              ║\033[0m")
     print("\033[1;92m╠══════════════════════════════════════╣\033[0m")
-    print("\033[1;35m║  3 DAYS   : 150 PKR                  ║\033[0m")
-    print("\033[1;35m║  7 DAYS   : 300 PKR                  ║\033[0m")
-    print("\033[1;35m║  30 DAYS  : 500 PKR                  ║\033[0m")
+    print("\033[1;92m║  3 DAYS   : 150 PKR                  ║\033[0m")
+    print("\033[1;92m║  7 DAYS   : 300 PKR                  ║\033[0m")
+    print("\033[1;92m║  30 DAYS  : 500 PKR                  ║\033[0m")
     print("\033[1;92m╚══════════════════════════════════════╝\033[0m\n")
 
 # ================= RUN =================
@@ -180,7 +183,7 @@ key = get_device_key()
 status, exp = check_key(key)
 
 if status == "approved":
-    print("APPROVED DEVICE SUCCESSFULLY✅")
+    print("APPROVED DEVICE")
 
 else:
     access_denied_block(key, status, exp)
