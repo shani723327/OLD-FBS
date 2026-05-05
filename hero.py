@@ -382,8 +382,7 @@ def __2010___2011():
         linex()
         for mal in user:
             uid = mal
-            pas = ['123456', '1234567', '12345678', '123456789']
-            Shani.submit(____old____, uid, pas, tl)
+            Shani.submit(____old____, uid, tl)
     print('');linex();print(f"\n{green} Cloning Session Complete")
     print(f"{white}➤ Total OK: {green}{len(ok)}")
     print(f"{white}➤ Total CP: {red}{len(cp)}")
@@ -408,9 +407,7 @@ def ____old2009___():
         linex()
         for love in user:
             uid = "100000" + love
-            pas = ['123456', '1234567', '12345678', '123456789']
-            Shani.submit(____old____, uid, pas, tl)
-
+            Shani.submit(____old____, uid, tl)
     print('');linex();print(f"\n{green} Cloning Session Complete")
     print(f"{white}➤ Total OK: {green}{len(ok)}")
     print(f"{white}➤ Total CP: {red}{len(cp)}")
