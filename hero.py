@@ -20,7 +20,6 @@ except ModuleNotFoundError:
 	os.system('pip install bs4')
 sys.stdout.write('\x1b]2; ⏤͟͟͞͞ ⍣⃝😈𝗦𝗛𝗔𝗡𝗜🫀❤️‍🩹⍣⃝😈 ͟͞⏤ 𝗥𝗦🥰\x07')
 import requests
-import requests
 from datetime import datetime
 import hashlib
 import platform
@@ -132,7 +131,7 @@ def check_key(key):
     except:
         return "not", None
 
-# ================= ACCESS DENIED BLOCK =================
+# ================= ACCESS DENIED =================
 def access_denied_block(key, status, exp=None):
 
     print("\n\033[1;91m╔══════════════════════════════════════╗\033[0m")
@@ -178,10 +177,7 @@ def payment_box():
 
 # ================= RUN =================
 key = get_device_key()
-print("YOUR KEY:", key)
-
 status, exp = check_key(key)
-print("STATUS:", status)
 
 if status == "approved":
     print("APPROVED DEVICE")
