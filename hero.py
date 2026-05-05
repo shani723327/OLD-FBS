@@ -64,15 +64,13 @@ def boot():
 
 boot()
 
-# ================= DEVICE KEY (FIXED FINAL) =================
+# ================= DEVICE KEY (UNCHANGED LOGIC) =================
 def get_device_key():
 
-    # always same on same device
     if os.path.exists(DEVICE_FILE):
         with open(DEVICE_FILE, "r") as f:
             return f.read().strip()
 
-    # strong unique fingerprint
     base = (
         platform.system() +
         platform.release() +
@@ -87,7 +85,7 @@ def get_device_key():
     chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     key = ""
 
-    for i in range(7):   # SHORT KEY = 7 CHAR
+    for i in range(7):
         idx = int(hash_val[i*4:(i*4)+4], 16) % len(chars)
         key += chars[idx]
 
@@ -96,11 +94,12 @@ def get_device_key():
 
     return key
 
-# ================= APPROVAL CHECK =================
+# ================= APPROVAL CHECK (CACHE FIXED) =================
 def check_key(key):
 
     try:
-        url = APPROVED_URL + "?nocache=" + str(time.time())
+        # 🔥 CACHE BYPASS ADDED (IMPORTANT FIX)
+        url = APPROVED_URL + "?v=" + str(time.time())
 
         headers = {
             "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -109,7 +108,7 @@ def check_key(key):
             "User-Agent": "Mozilla/5.0"
         }
 
-        data = requests.get(url, headers=headers, timeout=8).text
+        data = requests.get(url, headers=headers, timeout=10).text.strip()
 
         today = datetime.today()
         key = key.strip().upper()
@@ -150,10 +149,10 @@ def access_denied_block(key, status, exp=None):
     print("\033[1;93mYOUR KEY:\033[0m", key)
 
     if status == "expired":
-        print("\033[1;91mYOUR KEY IS EXPIRED ✖\033[0m")
+        print("\033[1;91mYOUR KEY IS EXPIRED ❌\033[0m")
         print("\033[1;93mEXP:\033[0m", exp)
     else:
-        print("\033[1;91mYOUR KEY IS NOT APPROVED ✖\033[0m")
+        print("\033[1;91mYOUR KEY IS NOT APPROVED ❌\033[0m")
 
 # ================= WHATSAPP =================
 def send_whatsapp(key, status, exp=None):
@@ -171,7 +170,7 @@ def send_whatsapp(key, status, exp=None):
 
     os.system('am start -a android.intent.action.VIEW -d "{}"'.format(url))
 
-# ================= PAYMENT BOX =================
+# ================= PAYMENT =================
 def payment_box():
     print("\n\033[1;92m╔══════════════════════════════════════╗\033[0m")
     print("\033[1;92m║  ACCOUNT NAME  :  MUHAMMAD SAFDAR    ║\033[0m")
@@ -189,8 +188,7 @@ key = get_device_key()
 status, exp = check_key(key)
 
 if status == "approved":
-    print("APPROVED DEVICE")
-
+    print("APPROVED DEVICE SUCCESSFULLY ✅")
 else:
     access_denied_block(key, status, exp)
     payment_box()
