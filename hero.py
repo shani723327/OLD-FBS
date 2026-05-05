@@ -374,7 +374,7 @@ def __2010___2011():
     for i in range(int(limit)):
         data = random.choice(["100001","100002","100003","100004"])+str(random.choice(range(111111111, 999999999)))
         user.append(data)
-		with ShaniXD(max_workers=50) as Shani:
+with ShaniXD(max_workers=50) as Shani:
         clear()
         total_ids = int(limit)
         print(f"\033[1;90m⌠\033[1;97m=\033[1;90m⌡\033[0;97m TOTAL IDS : \033[92m{tl}")
@@ -398,7 +398,7 @@ def ____old2009___():
     for _ in range(int(limit)):
         nmp = ''.join(random.choice(digits) for _ in range(9))
         user.append(nmp)
-		with ShaniXD(max_workers=50) as Shani:
+with ShaniXD(max_workers=50) as Shani:
         clear()
         total_ids = int(limit)
         print(f"\033[1;90m⌠\033[1;97m=\033[1;90m⌡\033[0;97m TOTAL IDS : \033[92m{tl}")
