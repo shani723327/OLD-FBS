@@ -382,7 +382,7 @@ def __2010___2011():
         linex()
         for mal in user:
             uid = mal
-            Shani.submit(____old____, uid, tl)
+            Shani.submit(____old____, uid, total_ids)
     print('');linex();print(f"\n{green} Cloning Session Complete")
     print(f"{white}➤ Total OK: {green}{len(ok)}")
     print(f"{white}➤ Total CP: {red}{len(cp)}")
