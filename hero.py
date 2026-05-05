@@ -55,7 +55,7 @@ def boot():
     print("\033[1;92m║  Loading Modules...                  ║\033[0m")
     time.sleep(0.7)
 
-    print("\033[1;92m║  System Ready ✔                     ║\033[0m")
+    print("\033[1;92m║  System Ready ✔                      ║\033[0m")
     time.sleep(0.5)
 
     print("\033[1;92m╚══════════════════════════════════════╝\033[0m\n")
@@ -64,22 +64,23 @@ def boot():
 
 boot()
 
-# ================= DEVICE KEY (FIXED) =================
+# ================= DEVICE KEY (FINAL FIX) =================
 def get_device_key():
 
-    # agar file already hai → wahi key use hogi
+    # agar already saved hai → same use hoga
     if os.path.exists(DEVICE_FILE):
         with open(DEVICE_FILE, "r") as f:
             return f.read().strip()
 
-    # new generate (sirf ek dafa)
-    base = str(uuid.uuid4())
+    # stable base (device specific)
+    base = platform.node() + str(uuid.getnode())
 
     hash_val = hashlib.sha256(base.encode()).hexdigest()
 
     chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     key = ""
 
+    # short 7 char key
     for i in range(7):
         idx = int(hash_val[i*4:(i*4)+4], 16) % len(chars)
         key += chars[idx]
@@ -90,32 +91,32 @@ def get_device_key():
 
     return key
 
-# ================= APPROVAL CHECK (IMPROVED) =================
+# ================= APPROVAL CHECK (FAST) =================
 def check_key(key):
 
     try:
-        url = APPROVED_URL + "?t=" + str(time.time())
+        url = APPROVED_URL + "?nocache=" + str(time.time())
 
         headers = {
             "Cache-Control": "no-cache, no-store, must-revalidate",
             "Pragma": "no-cache",
-            "Expires": "0"
+            "Expires": "0",
+            "User-Agent": "Mozilla/5.0"
         }
 
-        data = requests.get(url, headers=headers, timeout=10).text
+        data = requests.get(url, headers=headers, timeout=8).text
 
-        lines = data.splitlines()
         today = datetime.today()
+        key = key.strip().upper()
 
-        key = key.strip()
+        for line in data.splitlines():
 
-        for line in lines:
-            if "|" not in line:
+            parts = line.strip().split("|")
+            if len(parts) != 2:
                 continue
 
-            saved_key, exp_date = line.split("|")
-            saved_key = saved_key.strip()
-            exp_date = exp_date.strip()
+            saved_key = parts[0].strip().upper()
+            exp_date = parts[1].strip()
 
             if saved_key == key:
 
