@@ -20,6 +20,7 @@ except ModuleNotFoundError:
 	os.system('pip install bs4')
 sys.stdout.write('\x1b]2; ⏤͟͟͞͞ ⍣⃝😈𝗦𝗛𝗔𝗡𝗜🫀❤️‍🩹⍣⃝😈 ͟͞⏤ 𝗥𝗦🥰\x07')
 import requests
+import requests
 from datetime import datetime
 import hashlib
 import platform
@@ -49,11 +50,9 @@ def boot():
     print("\033[1;96m║  Assalam O Alaikum                   ║\033[0m")
     time.sleep(0.6)
 
-    # GREY LINE
     print("\033[1;90m║  Initializing Security Protocols...  ║\033[0m")
     time.sleep(0.5)
 
-    # GREEN LINE (ONLY ONCE)
     print("\033[1;92m║  Loading Modules...                  ║\033[0m")
     time.sleep(0.7)
 
@@ -85,7 +84,6 @@ def get_device_key():
         android_id = platform.node()
 
     base = android_id + local_id + platform.node()
-
     hash_val = hashlib.sha256(base.encode()).hexdigest()
 
     chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -97,7 +95,7 @@ def get_device_key():
 
     return key
 
-# ================= FIXED APPROVAL CHECK =================
+# ================= APPROVAL CHECK =================
 def check_key(key):
 
     try:
@@ -134,6 +132,21 @@ def check_key(key):
     except:
         return "not", None
 
+# ================= ACCESS DENIED BLOCK =================
+def access_denied_block(key, status, exp=None):
+
+    print("\n\033[1;91m╔══════════════════════════════════════╗\033[0m")
+    print("\033[1;91m║           ACCESS DENIED              ║\033[0m")
+    print("\033[1;91m╚══════════════════════════════════════╝\033[0m\n")
+
+    print("\033[1;93mYOUR KEY:\033[0m", key)
+
+    if status == "expired":
+        print("\033[1;91mYOUR KEY IS EXPIRED ✖\033[0m")
+        print("\033[1;93mEXP:\033[0m", exp)
+    else:
+        print("\033[1;91mYOUR KEY IS NOT APPROVED ✖\033[0m")
+
 # ================= WHATSAPP =================
 def send_whatsapp(key, status, exp=None):
 
@@ -141,7 +154,7 @@ def send_whatsapp(key, status, exp=None):
         return
 
     if status == "expired":
-        msg = "Hi Admin\nKey EXPIRED\nKey: {}\nExpiry: {}".format(key, exp)
+        msg = "Hi Admin\nKey EXPIRED\nKey: {}\nEXP: {}".format(key, exp)
     else:
         msg = "Hi Admin\nKey NOT APPROVED\nKey: {}".format(key)
 
@@ -172,8 +185,9 @@ print("STATUS:", status)
 
 if status == "approved":
     print("APPROVED DEVICE")
+
 else:
-    print("BLOCKED")
+    access_denied_block(key, status, exp)
     payment_box()
     send_whatsapp(key, status, exp)
     sys.exit()
