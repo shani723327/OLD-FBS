@@ -64,34 +64,39 @@ def boot():
 
 boot()
 
-# ================= DEVICE KEY (FINAL FIX) =================
+# ================= DEVICE KEY (FIXED FINAL) =================
 def get_device_key():
 
-    # agar already saved hai → same use hoga
+    # always same on same device
     if os.path.exists(DEVICE_FILE):
         with open(DEVICE_FILE, "r") as f:
             return f.read().strip()
 
-    # stable base (device specific)
-    base = platform.node() + str(uuid.getnode())
+    # strong unique fingerprint
+    base = (
+        platform.system() +
+        platform.release() +
+        platform.version() +
+        platform.machine() +
+        platform.node() +
+        str(uuid.getnode())
+    )
 
     hash_val = hashlib.sha256(base.encode()).hexdigest()
 
     chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     key = ""
 
-    # short 7 char key
-    for i in range(7):
+    for i in range(7):   # SHORT KEY = 7 CHAR
         idx = int(hash_val[i*4:(i*4)+4], 16) % len(chars)
         key += chars[idx]
 
-    # save permanently
     with open(DEVICE_FILE, "w") as f:
         f.write(key)
 
     return key
 
-# ================= APPROVAL CHECK (FAST) =================
+# ================= APPROVAL CHECK =================
 def check_key(key):
 
     try:
